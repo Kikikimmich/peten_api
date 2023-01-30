@@ -43,7 +43,7 @@ public class FileService {
         }catch (IOException e){
             e.printStackTrace();
         }
-        return fileName;
+        return PathConst.IMAGE_URL_ROOT + fileName;
     }
 
     public File getImage(String fileName) {
