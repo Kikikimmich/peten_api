@@ -1,6 +1,6 @@
 package com.kimmich.peten.model.vo;
 
-import com.kimmich.peten.model.entity.BmsTag;
+import com.kimmich.peten.model.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,7 +59,7 @@ public class PostVO implements Serializable {
     /**
      * 话题关联标签
      */
-    private List<BmsTag> tags;
+    private List<Tag> tags;
     /**
      * 浏览量
      */
