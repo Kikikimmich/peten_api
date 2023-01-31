@@ -25,6 +25,11 @@
     </properties>
     <dependencies>
 
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.codec</artifactId>
+            <version>1.8</version>
+        </dependency>
 
         <!--整合Swagger3-->
         <dependency>

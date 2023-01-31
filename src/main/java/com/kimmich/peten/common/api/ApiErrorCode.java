@@ -10,7 +10,7 @@ public enum ApiErrorCode implements IErrorCode {
     /**
      * 失败
      */
-    FAILED(-1, "操作失败"),
+    FAILED(500, "操作失败"),
     /**
      * 未登录，Token过期
      */
@@ -18,11 +18,11 @@ public enum ApiErrorCode implements IErrorCode {
     /**
      * 权限不足
      */
-    FORBIDDEN(403, "权限不足"),
+    FORBIDDEN(402, "权限不足"),
     /**
      * 参数校验错误
      */
-    VALIDATE_FAILED(404, "参数检验失败");
+    VALIDATE_FAILED(403, "参数检验失败");
 
     private final Integer code;
     private final String message;

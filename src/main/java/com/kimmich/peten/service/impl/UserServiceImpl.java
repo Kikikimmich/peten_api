@@ -70,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             {
                 throw new Exception("密码错误");
             }
-            token = JwtUtil.generateToken(String.valueOf(user.getUsername()));
+            token = JwtUtil.generateToken(user.getUsername(), user.getId());
         } catch (Exception e) {
             log.warn("用户不存在or密码验证失败=======>{}", dto.getUsername());
         }

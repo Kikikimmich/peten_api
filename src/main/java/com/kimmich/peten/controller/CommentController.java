@@ -1,6 +1,7 @@
 package com.kimmich.peten.controller;
 
 import com.kimmich.peten.common.api.ApiResult;
+import com.kimmich.peten.emun.JwtConst;
 import com.kimmich.peten.model.dto.CommentDTO;
 import com.kimmich.peten.model.entity.Comment;
 import com.kimmich.peten.model.entity.User;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static com.kimmich.peten.jwt.JwtUtil.USER_NAME;
 
 
 @RestController
@@ -30,7 +30,7 @@ public class CommentController extends BaseController {
         return ApiResult.success(lstBmsComment);
     }
     @PostMapping("/add_comment")
-    public ApiResult<Comment> add_comment(@RequestHeader(value = USER_NAME) String userName,
+    public ApiResult<Comment> add_comment(@RequestHeader(JwtConst.USER_NAME) String userName,
                                           @RequestBody CommentDTO dto) {
         User user = umsUserService.getUserByUsername(userName);
         Comment comment = bmsCommentService.create(dto, user);
