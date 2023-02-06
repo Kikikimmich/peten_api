@@ -10,12 +10,11 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
-
 @Data
 @Builder
-@TableName("tbl_comment")
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("tbl_comment")
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,24 +35,36 @@ public class Comment implements Serializable {
     /**
      * 作者ID
      */
-    @TableField("user_id")
+    @TableField("userId")
     private String userId;
 
     /**
-     * topicID
+     * 文章ID
      */
-    @TableField("topic_id")
-    private String topicId;
+    @TableField("articleId")
+    private String articleId;
+
+    /**
+     * 回复评论
+     */
+    @TableField("rootCommentId")
+    private String rootCommentId;
+
+    /**
+     * 话题对象
+     */
+    @TableField("type")
+    private int type;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(value = "createTime", fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 修改时间
      */
-    @TableField(value = "modify_time", fill = FieldFill.UPDATE)
+    @TableField(value = "modifyTime", fill = FieldFill.UPDATE)
     private Date modifyTime;
 }

@@ -36,6 +36,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private FollowMapper followMapper;
 
     @Override
+    public User getUserByUserId(String userId) {
+        return baseMapper.selectById(userId);
+    }
+
+    @Override
     public User executeRegister(RegisterDTO dto) {
         //查询是否有相同用户名的用户
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();

@@ -26,13 +26,13 @@ import static com.kimmich.peten.jwt.JwtUtil.USER_NAME;
 @RequestMapping("/ums/user")
 public class UserController extends BaseController {
     @Resource
-    private IUserService iUserService;
+    private IUserService userService;
     @Resource
     private IPostService iPostService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ApiResult<Map<String, Object>> register(@Valid @RequestBody RegisterDTO dto) {
-        User user = iUserService.executeRegister(dto);
+        User user = userService.executeRegister(dto);
         if (ObjectUtils.isEmpty(user)) {
             return ApiResult.failed("账号注册失败");
         }
@@ -43,7 +43,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult<Map<String, String>> login(@Valid @RequestBody LoginDTO dto) {
-        String token = iUserService.executeLogin(dto);
+        String token = userService.executeLogin(dto);
         if (ObjectUtils.isEmpty(token)) {
             return ApiResult.failed("账号密码错误");
         }
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String userName) {
-        User user = iUserService.getUserByUsername(userName);
+        User user = userService.getUserByUsername(userName);
         return ApiResult.success(user);
     }
 
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
                                                         @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, Object> map = new HashMap<>(16);
-        User user = iUserService.getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Assert.notNull(user, "用户不存在");
         Page<Post> page = iPostService.page(new Page<>(pageNo, size),
                 new LambdaQueryWrapper<Post>().eq(Post::getUserId, user.getId()));
@@ -78,7 +78,7 @@ public class UserController extends BaseController {
     }
     @PostMapping("/update")
     public ApiResult<User> updateUser(@RequestBody User user) {
-        iUserService.updateById(user);
+        userService.updateById(user);
         return ApiResult.success(user);
     }
 }

@@ -9,6 +9,8 @@ import com.kimmich.peten.model.vo.ProfileVO;
 
 public interface IUserService extends IService<User> {
 
+    User getUserByUserId(String userId);
+
     /**
      * 注册功能
      *
