@@ -50,6 +50,12 @@ public class Product implements Serializable {
     @TableField(value = "sales")
     private int sales;
 
+    @TableField(value = "limitCount")
+    private int limitCount;
+
+    @TableField(value = "images")
+    private String images;
+
     @TableField(value = "status")
     private int status;
 

@@ -8,5 +8,11 @@ import com.kimmich.peten.model.vo.product.ProductVO;
 import java.util.List;
 
 public interface IProductService extends IService<Product> {
+    ProductVO getDetails(String productId);
+
     ListPageDTO<ProductVO> getProduct(Long page, Long pageSize, String categoryId);
+
+    List<ProductVO> getProduct(List<String> productId);
+
+    ProductVO getProduct(String productId);
 }

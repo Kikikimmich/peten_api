@@ -1,19 +1,17 @@
-package com.kimmich.peten.model.vo.product;
+package com.kimmich.peten.model.bo.shop;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductVO {
+public class ProductBO {
     private String id;
     private String name;
     private String title;
@@ -22,12 +20,9 @@ public class ProductVO {
     private String categoryId;
     private BigDecimal price;
     private BigDecimal specialPrice;
-    private Integer stock;
-    private Integer sales;
+    private int stock;
+    private int sales;
+    private int status;
 
-    private Integer limitCount;
-
-    private Integer status;
-
-    private List<String> images;
+    private String images;
 }
