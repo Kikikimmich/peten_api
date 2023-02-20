@@ -6,11 +6,12 @@ import com.kimmich.peten.model.bo.shop.ProductBO;
 import com.kimmich.peten.model.entity.shop.Product;
 import com.kimmich.peten.model.vo.product.ProductVO;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 
 public interface ProductMapper extends BaseMapper<Product> {
+
+    Integer getStockForUpdate(@RequestParam("productId") String productId);
 
     ProductBO getProductById(@Param("id") String id);
 

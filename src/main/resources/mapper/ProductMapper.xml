@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kimmich.peten.mapper.ProductMapper">
 
+    <select id="getStockForUpdate" resultType="java.lang.Integer">
+        SELECT stock
+        FROM tbl_product
+        WHERE id = #{productId}
+        FOR UPDATE
+    </select>
+
     <select id="getProductById" resultType="com.kimmich.peten.model.bo.shop.ProductBO">
         SELECT
             id,

@@ -37,6 +37,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     ICategoryService categoryService;
 
     @Override
+    public Integer getStockForUpdate(String productId) {
+        return productMapper.getStockForUpdate(productId);
+    }
+
+    @Override
     public ProductVO getDetails(String productId) {
         if (StrUtil.isBlank(productId)){
             throw new ApiException("参数不能为空！");
