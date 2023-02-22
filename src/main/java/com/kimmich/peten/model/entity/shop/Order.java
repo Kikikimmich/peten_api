@@ -35,6 +35,9 @@ public class Order implements Serializable {
     @TableField(value = "count")
     private Integer count;
 
+    @TableField(value = "unitPrice")
+    private String unitPrice;
+
     @TableField(value = "totalCost")
     private String totalCost;
 

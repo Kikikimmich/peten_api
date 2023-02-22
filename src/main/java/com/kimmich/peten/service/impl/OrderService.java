@@ -9,23 +9,32 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.common.exception.ApiException;
 import com.kimmich.peten.emun.OrderConst;
 import com.kimmich.peten.mapper.OrderMapper;
+import com.kimmich.peten.model.common.ListDTO;
 import com.kimmich.peten.model.dto.order.OrderDTO;
 import com.kimmich.peten.model.entity.shop.Order;
+import com.kimmich.peten.model.vo.order.OrderVO;
+import com.kimmich.peten.model.vo.product.ProductVO;
 import com.kimmich.peten.service.IOrderService;
 import com.kimmich.peten.service.IProductService;
+import com.kimmich.peten.wrapper.OrderWrapper;
 import com.kimmich.peten.wrapper.ProductWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.ls.LSInput;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class OrderService extends ServiceImpl<OrderMapper, Order> implements IOrderService {
 
+
+    @Resource
+    OrderWrapper orderWrapper;
 
     @Resource
     IProductService productService;
@@ -35,8 +44,59 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements IOr
 
 
     @Override
+    public List<List<OrderVO>> getList(String userId) {
+        if (StrUtil.isBlank(userId)){
+            throw new ApiException("参数异常");
+        }
+        // 1. 获取订单
+        List<Order> orderList = orderWrapper.getList(userId);
+
+        // Map<String, List<Order>> orderMap = orderList.stream().collect(Collectors.groupingBy(Order::getOrderId));
+        Map<String, List<Order>> orderMap = new LinkedHashMap<>();
+        for (Order order : orderList) {
+            List<Order> orders = orderMap.get(order.getOrderId());
+            if (ObjectUtil.isNull(orders)){
+                orders = new ArrayList<>();
+            }
+            orders.add(order);
+            orderMap.put(order.getOrderId(), orders);
+        }
+
+        List<List<OrderVO>> result = new ArrayList<>();
+
+        // 2. 获取商品信息
+        for (Map.Entry<String, List<Order>> entry : orderMap.entrySet()){
+            List<Order> orders = entry.getValue();
+            List<String> productIdList = orders.stream().map(Order::getProductId).collect(Collectors.toList());
+            List<ProductVO> product = productService.getProduct(productIdList);
+            Map<String, ProductVO> productMap = product.stream().collect(Collectors.toMap(ProductVO::getId, Function.identity()));
+
+            List<OrderVO> voList = new ArrayList<>();
+            for (Order order : orders) {
+                ProductVO productVO = productMap.get(order.getProductId());
+
+                OrderVO orderVO = OrderVO.builder()
+                        .id(order.getId())
+                        .orderId(order.getOrderId())
+                        .productId(order.getProductId())
+                        .createTime(order.getCreateTime())
+                        .count(order.getCount())
+                        .unitPrice(order.getUnitPrice())
+                        .totalCost(order.getTotalCost())
+                        .productName(productVO.getName())
+                        .productCover(productVO.getCover())
+                        .build();
+                voList.add(orderVO);
+            }
+            result.add(voList);
+        }
+
+        return result;
+    }
+
+    @Override
     @Transactional
-    public void submit(String userId, OrderDTO dto) {
+    public synchronized void submit(String userId, OrderDTO dto) {
         if (StrUtil.isBlank(userId) || ObjectUtil.isNull(dto)){
             throw new ApiException("参数异常");
         }
@@ -49,7 +109,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements IOr
 
         // 生成订单号，整个事务的订单号
         DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator();
-        Long orderId = generator.nextId(this);
+        Long orderId = generator.nextId(new Object());
 
         List<OrderDTO.Order> orderList = dto.getOrderList();
         for (OrderDTO.Order order : orderList) {
@@ -75,6 +135,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements IOr
                 .userId(userId)
                 .productId(params.getProductId())
                 .count(params.getCount())
+                .unitPrice(params.getUnitPrice())
                 .totalCost(params.getTotalCost())
                 .addressId(addressId)
                 .status(OrderConst.TYPE_UNPAID)

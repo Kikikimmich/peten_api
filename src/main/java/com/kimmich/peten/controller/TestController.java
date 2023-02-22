@@ -23,6 +23,7 @@ public class TestController {
         OrderDTO.Order order = OrderDTO.Order.builder()
                 .productId("1")
                 .count(1)
+                .unitPrice("99")
                 .totalCost("99")
                 .build();
 

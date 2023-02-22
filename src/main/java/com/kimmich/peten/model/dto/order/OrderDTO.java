@@ -30,6 +30,7 @@ public class OrderDTO {
     public static class Order{
         private String productId;
         private Integer count;
+        private String unitPrice;
         // 实际付款
         private String totalCost;
     }
