@@ -1,4 +1,4 @@
-package com.kimmich.peten.webSocket;
+package com.kimmich.peten.webSocket.core;
 
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;

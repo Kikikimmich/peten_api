@@ -1,5 +1,12 @@
-package com.kimmich.peten.webSocket;
+package com.kimmich.peten.webSocket.service;
 
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
+
+import com.kimmich.peten.webSocket.constant.MessageTypeConst;
+import com.kimmich.peten.webSocket.dto.CommonMessageDTO;
+import com.kimmich.peten.webSocket.dto.CommonReplyDTO;
+import com.kimmich.peten.webSocket.dto.MessageTypeDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -41,12 +48,50 @@ public class WebSocketImpl implements WebSocket {
     public void handleMessage(WebSocketSession session, String message) {
         // 只处理前端传来的文本消息，并且直接丢弃了客户端传来的消息
         log.info("received a message：{}", message);
-        // 回复一个
-        try{
-            this.sendMessage(session, "回复+" + message);
-        } catch (Exception e){
+
+        if ("ping".equals(message)){
+            return;
+        }
+
+        MessageTypeDTO messageTypeDTO = null;
+        try {
+            messageTypeDTO = JSONObject.parseObject(message).toJavaObject(MessageTypeDTO.class);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (messageTypeDTO == null) {
+            try {
+                this.sendMessage(session, "不支持的消息类型：" + message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        assert messageTypeDTO.getType() != null;
+
+        switch (messageTypeDTO.getType()) {
+            case MessageTypeConst.TYPE_USER:
+                doUserMassage(session, messageTypeDTO.getMessage());
+                break;
+            case MessageTypeConst.TYPE_SHOP:
+                doShopMassage(session, messageTypeDTO.getMessage());
+            case MessageTypeConst.TYPE_HOSPITAL:
+                doHospitalMassage(session, messageTypeDTO.getMessage());
+            case MessageTypeConst.TYPE_SYSTEM:
+                doSystemMassage(session, messageTypeDTO.getMessage());
+            default:
+                doDefaultMessage(session, messageTypeDTO.getMessage());
+        }
+
+
+        // 回复一个
+//        try{
+//            this.sendMessage(session, "回复+" + message);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -116,6 +161,49 @@ public class WebSocketImpl implements WebSocket {
     @Override
     public int getConnectionCount() {
         return connectionCount.get();
+    }
+
+
+    private void doUserMassage(WebSocketSession session, CommonMessageDTO message) {
+    }
+
+    private void doShopMassage(WebSocketSession session, CommonMessageDTO message) {
+
+        if (message == null){
+            try {
+                this.sendMessage(session, "不支持的消息类型：" + message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // 正式业务
+        // 还没连接上客服
+        if (StrUtil.isBlank(message.getTargetId())){
+
+            // 配置客服
+
+        }
+
+        // 先假装回复一下 mock
+        try {
+            this.sendMessage(session, CommonReplyDTO.succeed(CommonMessageDTO.builder()
+                    .message("请稍等...")
+                    .build()));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void doHospitalMassage(WebSocketSession session, CommonMessageDTO message) {
+    }
+
+    private void doSystemMassage(WebSocketSession session, CommonMessageDTO message) {
+    }
+
+    private void doDefaultMessage(WebSocketSession session, CommonMessageDTO message) {
     }
 }
 

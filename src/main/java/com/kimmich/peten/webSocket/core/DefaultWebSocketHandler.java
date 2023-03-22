@@ -1,5 +1,6 @@
-package com.kimmich.peten.webSocket;
+package com.kimmich.peten.webSocket.core;
 
+import com.kimmich.peten.webSocket.service.WebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.socket.*;
