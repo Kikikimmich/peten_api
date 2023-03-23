@@ -1,8 +1,6 @@
 package com.kimmich.peten.algorithm.nlp;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.common.Term;
@@ -43,6 +41,7 @@ public class Test4 {
         return features;
     }
 
+    // 余弦相似度
     public static double cosineSimilarity(double[] vectorA, double[] vectorB) {
         double dotProduct = 0.0;
         double normA = 0.0;
@@ -53,6 +52,25 @@ public class Test4 {
             normB += Math.pow(vectorB[i], 2);
         }
         return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    // 根据余弦相似度推荐用户
+    public static List<String> recommendBloggers(List<String> allBloggers, Map<String, double[]> bloggerVectors, String currentUser, int numRecommendations) {
+        List<String> recommendedBloggers = new ArrayList<>();
+        double[] currentUserVector = bloggerVectors.get(currentUser);
+        PriorityQueue<Map.Entry<String, Double>> pq = new PriorityQueue<>((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        for (Map.Entry<String, double[]> entry : bloggerVectors.entrySet()) {
+            if (!entry.getKey().equals(currentUser)) {
+                double similarity = cosineSimilarity(currentUserVector, entry.getValue());
+                pq.offer(new AbstractMap.SimpleEntry<>(entry.getKey(), similarity));
+            }
+        }
+        int count = 0;
+        while (!pq.isEmpty() && count < numRecommendations) {
+            recommendedBloggers.add(pq.poll().getKey());
+            count++;
+        }
+        return recommendedBloggers;
     }
 
 }
