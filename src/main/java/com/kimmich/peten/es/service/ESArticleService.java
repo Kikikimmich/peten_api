@@ -5,11 +5,8 @@ import com.kimmich.peten.es.bo.PageInfoBO;
 import com.kimmich.peten.es.domain.ESArticle;
 import com.kimmich.peten.es.repository.ESArticleRepository;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -33,6 +30,15 @@ public class ESArticleService {
 
 
     public ArticleSearchBO searchByTitle(String keyword, Integer page, Integer pageSize){
+
+        // tmd page 从0开始
+        if (page == null || page <= 0){
+            page = 0;
+        } else {
+            page = page - 1;
+        }
+
+
         //需要查询的字段
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .should(QueryBuilders.matchQuery("title", keyword));
