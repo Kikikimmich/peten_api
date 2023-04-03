@@ -87,8 +87,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = baseMapper.selectById(id);
         BeanUtils.copyProperties(user, profile);
         // 用户文章数
-        int count = topicMapper.selectCount(new LambdaQueryWrapper<Post>().eq(Post::getUserId, id));
-        profile.setTopicCount(count);
+//        int count = topicMapper.selectCount(new LambdaQueryWrapper<Post>().eq(Post::getUserId, id));
+        profile.setTopicCount(0);
 
         // 粉丝数
         int followers = followMapper.selectCount((new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, id)));

@@ -13,9 +13,9 @@ import java.util.Date;
 
 @Data
 @Builder
-@TableName("tbl_post")
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("tbl_post")
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,50 +41,20 @@ public class Post implements Serializable {
     /**
      * 作者ID
      */
-    @TableField("user_id")
-    private String userId;
+    @TableField("author")
+    private String author;
 
     /**
-     * 评论数
+     * 图片id， ;分割
      */
-    @TableField("comments")
-    @Builder.Default
-    private Integer comments = 0;
+    @TableField("images")
+    private String images;
 
     /**
-     * 收藏数
+     * 圈子id
      */
-    @TableField("collects")
-    @Builder.Default
-    private Integer collects = 0;
-
-    /**
-     * 浏览数
-     */
-    @TableField("view")
-    @Builder.Default
-    private Integer view = 0;
-
-    /**
-     * 专栏ID，默认不分栏
-     */
-    @TableField("section_id")
-    @Builder.Default
-    private Integer sectionId = 0;
-
-    /**
-     * 置顶
-     */
-    @TableField("top")
-    @Builder.Default
-    private Boolean top = false;
-
-    /**
-     * 加精
-     */
-    @TableField("essence")
-    @Builder.Default
-    private Boolean essence = false;
+    @TableField("groupId")
+    private String groupId;
 
     /**
      * 创建时间

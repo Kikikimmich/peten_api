@@ -1,0 +1,5 @@
+CREATE TABLE `tbl_category` (
+  `id` varchar(20) NOT NULL COMMENT '主键',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='商品总类表';

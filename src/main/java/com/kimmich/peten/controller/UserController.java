@@ -70,10 +70,10 @@ public class UserController extends BaseController {
         Map<String, Object> map = new HashMap<>(16);
         User user = userService.getUserByUsername(username);
         Assert.notNull(user, "用户不存在");
-        Page<Post> page = iPostService.page(new Page<>(pageNo, size),
-                new LambdaQueryWrapper<Post>().eq(Post::getUserId, user.getId()));
+//        Page<Post> page = iPostService.page(new Page<>(pageNo, size),
+//                new LambdaQueryWrapper<Post>().eq(Post::getUserId, user.getId()));
         map.put("user", user);
-        map.put("topics", page);
+//        map.put("topics", page);
         return ApiResult.success(map);
     }
     @PostMapping("/update")
