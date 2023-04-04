@@ -10,6 +10,7 @@ import com.kimmich.peten.mapper.ArticleMapper;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.common.PageInfo;
 import com.kimmich.peten.model.dto.content.ContentResultDTO;
+import com.kimmich.peten.model.dto.user.SearchUserDTO;
 import com.kimmich.peten.model.entity.Article;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,15 @@ public class SearchService {
     @Resource
     IArticleService articleService;
 
+    @Deprecated
     public Object commonSearch(String query, Integer type, Long page, Long pageSize) {
 
+        return null;
+    }
+
+    // 通过用户名查询用户
+    public ListPageDTO<SearchUserDTO> searchUser(String keyword, Integer page, Integer pageSize){
+        // todo
         return null;
     }
 
