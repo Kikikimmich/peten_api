@@ -2,7 +2,7 @@ package com.kimmich.peten.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kimmich.peten.model.entity.Post;
+import com.kimmich.peten.model.entity.group.Post;
 import com.kimmich.peten.model.vo.PostVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

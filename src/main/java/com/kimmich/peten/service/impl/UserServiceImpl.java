@@ -9,8 +9,8 @@ import com.kimmich.peten.mapper.TopicMapper;
 import com.kimmich.peten.mapper.UserMapper;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
+import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.Follow;
-import com.kimmich.peten.model.entity.Post;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.model.vo.ProfileVO;
 import com.kimmich.peten.service.IUserService;
@@ -31,9 +31,17 @@ import java.util.Date;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Autowired
-    private TopicMapper topicMapper;
-    @Autowired
     private FollowMapper followMapper;
+
+    @Override
+    public SimpleUserDTO getSimpleInfo(String id) {
+        User user = getById(id);
+        return SimpleUserDTO.builder()
+                .id(id)
+                .name(user.getUsername())
+                .avatar(user.getAvatar())
+                .build();
+    }
 
     @Override
     public User getUserByUserId(String userId) {

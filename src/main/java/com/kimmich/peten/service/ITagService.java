@@ -2,7 +2,7 @@ package com.kimmich.peten.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kimmich.peten.model.entity.Post;
+import com.kimmich.peten.model.entity.group.Post;
 import com.kimmich.peten.model.entity.Tag;
 
 import java.util.List;

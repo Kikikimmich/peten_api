@@ -1,4 +1,4 @@
-package com.kimmich.peten.model.entity;
+package com.kimmich.peten.model.entity.group;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.mapper.TagMapper;
-import com.kimmich.peten.model.entity.Post;
+import com.kimmich.peten.model.entity.group.Post;
 import com.kimmich.peten.model.entity.Tag;
 import com.kimmich.peten.service.ITagService;
 import com.kimmich.peten.service.IPostService;

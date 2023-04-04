@@ -3,7 +3,7 @@ package com.kimmich.peten.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kimmich.peten.common.api.ApiResult;
-import com.kimmich.peten.model.entity.Post;
+import com.kimmich.peten.model.entity.group.Post;
 import com.kimmich.peten.model.entity.Tag;
 import com.kimmich.peten.service.ITagService;
 import org.springframework.util.Assert;

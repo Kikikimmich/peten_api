@@ -3,11 +3,14 @@ package com.kimmich.peten.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
+import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.model.vo.ProfileVO;
 
 
 public interface IUserService extends IService<User> {
+
+    SimpleUserDTO getSimpleInfo(String id);
 
     User getUserByUserId(String userId);
 
