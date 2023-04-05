@@ -1,6 +1,6 @@
 package com.kimmich.peten.jwt;
 
-import com.kimmich.peten.emun.JwtConst;
+import com.kimmich.peten.constant.JwtConst;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

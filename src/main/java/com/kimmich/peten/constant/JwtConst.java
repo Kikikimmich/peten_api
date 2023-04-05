@@ -1,4 +1,4 @@
-package com.kimmich.peten.emun;
+package com.kimmich.peten.constant;
 
 public class JwtConst {
     public static final String SECRET = "ThisIsASecret";//please change to your own encryption secret.

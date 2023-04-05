@@ -1,7 +1,9 @@
 package com.kimmich.peten.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kimmich.peten.common.exception.ApiException;
 import com.kimmich.peten.mapper.SuperGroupMapper;
 import com.kimmich.peten.model.dto.group.AllGroupDTO;
 import com.kimmich.peten.model.dto.group.GroupDTO;
@@ -10,9 +12,11 @@ import com.kimmich.peten.model.entity.group.SuperGroup;
 import com.kimmich.peten.service.IGroupService;
 import com.kimmich.peten.service.ISuperGroupService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -51,5 +55,21 @@ public class SuperGroupServiceImpl extends ServiceImpl<SuperGroupMapper, SuperGr
         }
 
         return allGroups;
+    }
+
+    @Override
+    @Transactional
+    public void edit(SuperGroup args) {
+
+        if (StrUtil.isBlank(args.getName())){
+            throw new ApiException("标题不能为空");
+        }
+
+        if (StrUtil.isBlank(args.getId())){
+            args.setCreateTime(new Date());
+        }
+        args.setModifyTime(new Date());
+
+        this.saveOrUpdate(args);
     }
 }

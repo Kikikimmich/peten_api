@@ -1,6 +1,6 @@
 package com.kimmich.peten.controller;
 
-import com.kimmich.peten.emun.JwtConst;
+import com.kimmich.peten.constant.JwtConst;
 import com.kimmich.peten.jwt.JwtUtil;
 import com.kimmich.peten.model.entity.User;
 import io.jsonwebtoken.Claims;

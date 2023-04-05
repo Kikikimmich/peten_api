@@ -40,7 +40,7 @@
             stock,
             sales
         FROM tbl_product
-        WHERE status = ${@com.kimmich.peten.emun.CommonConst@STATUS_ON}
+        WHERE status = ${@com.kimmich.peten.constant.CommonConst@STATUS_ON}
             <if test="categoryId != null and categoryId != ''">
                 AND categoryId = #{categoryId}
             </if>

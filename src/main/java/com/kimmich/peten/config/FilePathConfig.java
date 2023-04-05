@@ -1,6 +1,6 @@
 package com.kimmich.peten.config;
 
-import com.kimmich.peten.emun.PathConst;
+import com.kimmich.peten.constant.PathConst;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,4 +1,4 @@
-package com.kimmich.peten.emun;
+package com.kimmich.peten.constant;
 
 public class PathConst {
     // 图片url的根

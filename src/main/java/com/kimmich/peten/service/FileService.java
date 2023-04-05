@@ -2,8 +2,8 @@ package com.kimmich.peten.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.kimmich.peten.emun.PathConst;
-import com.kimmich.peten.emun.UploadImageConst;
+import com.kimmich.peten.constant.PathConst;
+import com.kimmich.peten.constant.UploadImageConst;
 import com.kimmich.peten.utils.MD5Utils;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;

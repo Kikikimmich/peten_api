@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ISuperGroupService extends IService<SuperGroup> {
     List<AllGroupDTO> getAllGroup();
+
+    void edit(SuperGroup args);
 }

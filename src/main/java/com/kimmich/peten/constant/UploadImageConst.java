@@ -1,4 +1,4 @@
-package com.kimmich.peten.emun;
+package com.kimmich.peten.constant;
 
 public class UploadImageConst {
     // 图片上传目标站点

@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.common.exception.ApiException;
-import com.kimmich.peten.emun.CommentConst;
+import com.kimmich.peten.constant.CommentConst;
 import com.kimmich.peten.mapper.CommentMapper;
 import com.kimmich.peten.model.bo.comment.CommentBO;
 import com.kimmich.peten.model.common.ListDTO;

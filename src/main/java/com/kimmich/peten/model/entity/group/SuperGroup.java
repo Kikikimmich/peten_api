@@ -26,7 +26,7 @@ public class SuperGroup {
     private String name;
 
     @TableField(value = "total")
-    private String total;
+    private Integer total;
 
     /**
      * 创建时间

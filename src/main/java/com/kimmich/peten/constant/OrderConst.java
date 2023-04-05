@@ -1,4 +1,4 @@
-package com.kimmich.peten.emun;
+package com.kimmich.peten.constant;
 
 public class OrderConst {
     /* 未支付状态 */

@@ -31,7 +31,10 @@ public class Group implements Serializable {
     private String cover;
 
     @TableField("follow")
-    private String follow;
+    private Integer follow;
+
+    @TableField("heat")
+    private Integer heat;
 
     @TableField("slogan")
     private String slogan;

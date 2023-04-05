@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.common.exception.ApiException;
-import com.kimmich.peten.emun.CommonConst;
+import com.kimmich.peten.constant.CommonConst;
 import com.kimmich.peten.mapper.ProductMapper;
 import com.kimmich.peten.model.bo.shop.ProductBO;
 import com.kimmich.peten.model.common.ListPageDTO;
