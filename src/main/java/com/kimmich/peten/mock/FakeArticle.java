@@ -26,6 +26,7 @@ public class FakeArticle {
         System.out.println("标题：" + title);
         System.out.println("作者：" + author);
         System.out.println("文章：" + article);
+        System.out.println(faker.regexify ("(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}"));
     }
 }
 
