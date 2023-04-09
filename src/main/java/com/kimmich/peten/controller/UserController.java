@@ -4,6 +4,7 @@ package com.kimmich.peten.controller;
 import com.kimmich.peten.common.api.ApiResult;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
+import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.service.IPostService;
 import com.kimmich.peten.service.IUserService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.kimmich.peten.jwt.JwtUtil.USER_NAME;
@@ -26,6 +28,13 @@ public class UserController extends BaseController {
     private IUserService userService;
     @Resource
     private IPostService iPostService;
+
+
+    @GetMapping("/recommend")
+    public ApiResult<List<SimpleUserDTO>> recommend(String userId){
+        return ApiResult.success(userService.recommend(userId));
+    }
+
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ApiResult<Map<String, Object>> register(@Valid @RequestBody RegisterDTO dto) {

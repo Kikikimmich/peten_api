@@ -2,12 +2,29 @@ package com.kimmich.peten.utils;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CommonUtil {
+
+    public static File getSystemFile(String fileName) {
+        ClassPathResource classPathResource = new ClassPathResource("static/file/" + fileName);
+        File file;
+        try {
+            file = classPathResource.getFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 没有的换就在这里建一个
+            file = new File("E:\\MyProject\\peten_api\\src\\main\\resources\\static\\file" + fileName);
+        }
+        return file;
+    }
+
 
     public static boolean isEmpty(Object o){
         if (!notNull(o)){

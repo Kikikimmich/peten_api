@@ -6,4 +6,8 @@ public class PathConst {
 
     // 图片根路径
     public static final String IMAGE_ROOT = "E:/MyProject/file/image/";
+
+    // 频繁项集文件
+    public static final String FREQUENT_ITEM_SET = "FrequentItemSet.txt";
+
 }
