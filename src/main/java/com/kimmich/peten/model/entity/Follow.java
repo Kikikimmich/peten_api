@@ -1,14 +1,18 @@
 package com.kimmich.peten.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("tbl_follow")
 public class Follow implements Serializable {
 
@@ -17,22 +21,31 @@ public class Follow implements Serializable {
     /**
      * 主键
      */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private String id;
 
     /**
      * 被关注人id
      */
-    @TableField("parent_id")
-    private String parentId;
+    @TableField("userId")
+    private String userId;
 
     /**
      * 关注人id
      */
-    @TableField("follower_id")
-    private String followerId;
+    @TableField("follow")
+    private String follow;
 
-    public Follow() {
-    }
+    /**
+     * 创建时间
+     */
+    @TableField(value = "createTime", fill = FieldFill.INSERT)
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    @TableField(value = "modifyTime", fill = FieldFill.UPDATE)
+    private Date modifyTime;
 
 }

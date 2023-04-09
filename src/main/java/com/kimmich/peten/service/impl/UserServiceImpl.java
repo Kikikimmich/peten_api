@@ -1,6 +1,7 @@
 package com.kimmich.peten.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.common.exception.ApiAsserts;
 import com.kimmich.peten.jwt.JwtUtil;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -32,6 +35,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private FollowMapper followMapper;
+
+    @Override
+    public List<String> getAllId() {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(User::getId).ge(User::getCreateTime, "2023-04-06");
+        return this.list(queryWrapper).stream().map(User::getId).collect(Collectors.toList());
+    }
 
     @Override
     public SimpleUserDTO getSimpleInfo(String id) {
@@ -99,8 +109,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         profile.setTopicCount(0);
 
         // 粉丝数
-        int followers = followMapper.selectCount((new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, id)));
-        profile.setFollowerCount(followers);
+//        int followers = followMapper.selectCount((new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, id)));
+        profile.setFollowerCount(0);
 
         return profile;
     }

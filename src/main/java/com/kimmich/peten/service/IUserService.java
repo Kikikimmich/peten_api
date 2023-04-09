@@ -7,13 +7,16 @@ import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.model.vo.ProfileVO;
 
+import java.util.List;
+
 
 public interface IUserService extends IService<User> {
+
+    List<String> getAllId();
 
     SimpleUserDTO getSimpleInfo(String id);
 
     User getUserByUserId(String userId);
-
     /**
      * 注册功能
      *
