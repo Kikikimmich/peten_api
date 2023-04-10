@@ -12,6 +12,7 @@ import com.kimmich.peten.jwt.JwtUtil;
 import com.kimmich.peten.mapper.FollowMapper;
 import com.kimmich.peten.mapper.TopicMapper;
 import com.kimmich.peten.mapper.UserMapper;
+import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
 import com.kimmich.peten.model.dto.user.SimpleUserDTO;
@@ -45,6 +46,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private IFollowService followService;
+
+    @Override
+    public ListPageDTO<Object> myFollowNews(List<String> userId) {
+        return null;
+    }
+
+    @Override
+    public List<SimpleUserDTO> getMyFollow(String userId) {
+        List<String> myFocus = getMyFocus(userId);
+        return getSimpleInfo(myFocus);
+    }
 
     @Override
     public List<SimpleUserDTO> recommend(String userId) {

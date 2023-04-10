@@ -2,6 +2,8 @@ package com.kimmich.peten.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kimmich.peten.common.api.ApiResult;
+import com.kimmich.peten.model.common.ListPageDTO;
+import com.kimmich.peten.model.common.PageInfo;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
 import com.kimmich.peten.model.dto.user.SimpleUserDTO;
@@ -13,6 +15,9 @@ import java.util.List;
 
 public interface IUserService extends IService<User> {
 
+    ListPageDTO<Object> myFollowNews(List<String> userId);
+
+    List<SimpleUserDTO> getMyFollow(String userId);
 
     List<SimpleUserDTO> recommend(String userId);
 

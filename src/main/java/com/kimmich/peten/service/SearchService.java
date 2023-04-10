@@ -12,6 +12,7 @@ import com.kimmich.peten.model.common.PageInfo;
 import com.kimmich.peten.model.dto.content.ContentResultDTO;
 import com.kimmich.peten.model.dto.user.SearchUserDTO;
 import com.kimmich.peten.model.entity.Article;
+import com.kimmich.peten.model.vo.product.ProductVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +35,10 @@ public class SearchService {
 
     @Resource
     IArticleService articleService;
+
+    @Resource
+    IProductService productService;
+
 
     @Deprecated
     public Object commonSearch(String query, Integer type, Long page, Long pageSize) {
@@ -117,5 +122,9 @@ public class SearchService {
                         .totalRow(pageInfo.getTotalRow())
                         .build())
                 .build();
+    }
+
+    public ListPageDTO<ProductVO> searchGoods(String keyword, Integer page, Integer pageSize) {
+        return productService.getProductByKeyword(keyword, (long) page, (long) pageSize);
     }
 }

@@ -45,4 +45,23 @@
                 AND categoryId = #{categoryId}
             </if>
     </select>
+
+    <select id="getProductByKeyword" resultType="com.kimmich.peten.model.vo.product.ProductVO">
+        SELECT
+            id,
+            categoryId,
+            name,
+            title,
+            introduction,
+            cover,
+            price,
+            specialPrice,
+            stock,
+            sales
+        FROM tbl_product
+        WHERE status = ${@com.kimmich.peten.constant.CommonConst@STATUS_ON}
+        AND( title LIKE Concat("%", #{keyword}, "%")
+                 OR name LIKE Concat("%", #{keyword}, "%")
+                 OR introduction LIKE Concat("%", #{keyword}, "%"))
+    </select>
 </mapper>

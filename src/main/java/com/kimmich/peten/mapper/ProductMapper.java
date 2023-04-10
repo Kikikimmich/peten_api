@@ -16,4 +16,6 @@ public interface ProductMapper extends BaseMapper<Product> {
     ProductBO getProductById(@Param("id") String id);
 
     IPage<ProductVO> getProductByCategoryId(IPage<ProductVO> pageInfo, @Param("categoryId") String categoryId);
+
+    IPage<ProductVO> getProductByKeyword(IPage<ProductVO> pageInfo, @Param("keyword") String keyword);
 }

@@ -5,8 +5,10 @@ import com.kimmich.peten.common.api.ApiResult;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.dto.content.ContentResultDTO;
 import com.kimmich.peten.model.vo.PostVO;
+import com.kimmich.peten.model.vo.product.ProductVO;
 import com.kimmich.peten.service.IPostService;
 import com.kimmich.peten.service.SearchService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +36,17 @@ public class SearchController extends BaseController {
         return ApiResult.success();
     }
 
+    @GetMapping("/goods")
+    @ApiOperation("搜索商品")
+    public ApiResult<ListPageDTO<ProductVO>> searchGoods(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                                                         @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                                         @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
+//        Page<PostVO> results = postService.searchByKey(keyword, new Page<>(page, pageSize));
+        ListPageDTO<ProductVO> result = searchService.searchGoods(keyword, page, pageSize);
+        return ApiResult.success(result);
+    }
+
     @GetMapping("/content")
-    @Deprecated
     public ApiResult<ListPageDTO<ContentResultDTO>> searchContent(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                                               @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                               @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {

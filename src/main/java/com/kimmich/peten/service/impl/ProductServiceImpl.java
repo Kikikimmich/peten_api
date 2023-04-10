@@ -37,6 +37,21 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     ICategoryService categoryService;
 
     @Override
+    public ListPageDTO<ProductVO> getProductByKeyword(String keyword, Long page, Long pageSize) {
+        IPage<ProductVO> pageInfo = new Page<>(page,pageSize);
+        pageInfo = productMapper.getProductByKeyword(pageInfo, keyword);
+        return ListPageDTO.<ProductVO>builder()
+                .list(pageInfo.getRecords())
+                .pageInfo(PageInfo.builder()
+                        .page(page)
+                        .pageSize(pageSize)
+                        .totalRow(pageInfo.getTotal())
+                        .build())
+                .build();
+
+    }
+
+    @Override
     public Integer getStockForUpdate(String productId) {
         return productMapper.getStockForUpdate(productId);
     }
