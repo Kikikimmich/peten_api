@@ -1,5 +1,6 @@
 package com.kimmich.peten.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,7 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
@@ -30,6 +34,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     ArticleMapper articleMapper;
     @Resource
     ArticleWrapper articleWrapper;
+
+    @Override
+    // 获取近三天的最热们的前 {limit} 条
+    public List<Article> getTopHop(Integer limit) {
+
+        if (limit == null || limit <= 0){
+            limit = Integer.MAX_VALUE;
+        }
+
+        // 三天前
+        String date = LocalDate.now().minusDays(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.le(Article::getCreateTime, date).orderByDesc(Article::getHots).last("limit " + limit);
+
+        return list(queryWrapper);
+    }
 
     @Override
     public Boolean exists(String id) {

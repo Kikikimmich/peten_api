@@ -32,6 +32,34 @@ public class Article implements Serializable {
     @TableField("author")
     private String author;
 
+    /*
+    *  todo
+    *
+    *  Hotness = (log10(views) + likes + favorites + comments) / age
+    *
+    *  ALTER TABLE table_name ADD column_name datatype DEFAULT default_value;
+    * */
+
+    // 热度
+    @TableField("hots")
+    private Double hots;
+
+    // 观看
+    @TableField("views")
+    private Integer views;
+
+    // 点赞
+    @TableField("likes")
+    private Integer likes;
+
+    // 收藏
+    @TableField("favorites")
+    private Integer favorites;
+
+    // 评论
+    @TableField("comments")
+    private Integer comments;
+
     /**
      * 创建时间
      */
