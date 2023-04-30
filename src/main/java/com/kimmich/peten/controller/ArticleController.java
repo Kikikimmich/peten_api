@@ -6,18 +6,26 @@ import com.kimmich.peten.model.bo.article.ArticleBO;
 import com.kimmich.peten.model.bo.article.ListBO;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.dto.article.ArticleDTO;
+import com.kimmich.peten.model.dto.article.SimpleArticleDTO;
 import com.kimmich.peten.model.dto.content.ContentDTO;
+import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.service.IArticleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/article")
 public class ArticleController extends BaseController{
     @Resource
     IArticleService articleService;
+
+    @GetMapping("/recommend")
+    public ApiResult<List<SimpleArticleDTO>> recommend(String id){
+        return ApiResult.success(articleService.recommend(id));
+    }
 
     @GetMapping("")
     @ApiOperation("获取文章详情")

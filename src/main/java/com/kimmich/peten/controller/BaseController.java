@@ -1,5 +1,6 @@
 package com.kimmich.peten.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.kimmich.peten.constant.JwtConst;
 import com.kimmich.peten.jwt.JwtUtil;
 import com.kimmich.peten.model.entity.User;
@@ -22,6 +23,9 @@ public class BaseController {
 
     private User getLoginUser() {
         String token = getHttpServletRequest().getHeader(JwtConst.HEADER_STRING);
+        if (StrUtil.isBlank(token)){
+            return new User();
+        }
         token = token.replace(JwtConst.TOKEN_PREFIX, "");
         Claims claims = JwtUtil.decodeToken(token);
         String userName = claims.get(JwtConst.USER_NAME, String.class);

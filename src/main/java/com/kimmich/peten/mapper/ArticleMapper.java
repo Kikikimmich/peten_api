@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArticleMapper extends BaseMapper<Article> {
-    @Select("SELECT * FROM tbl_article")
+    @Select("SELECT * FROM tbl_article ORDER BY create_time desc")
     IPage<ArticleBO> getList(IPage<ArticleBO> pageInfo, String query);
 }

@@ -165,7 +165,7 @@ public class FeatureExtractor {
     * */
 
     // 计算两个向量的余弦相似度
-    private static double cosineSimilarity(Map<String, Double> v1, Map<String, Double> v2) {
+    public static double cosineSimilarity(Map<String, Double> v1, Map<String, Double> v2) {
         double dotProduct = 0.0;
         double v1Norm = 0.0;
         double v2Norm = 0.0;

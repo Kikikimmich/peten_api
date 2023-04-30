@@ -1,6 +1,8 @@
 package com.kimmich.peten.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,13 +14,17 @@ import com.kimmich.peten.jwt.JwtUtil;
 import com.kimmich.peten.mapper.FollowMapper;
 import com.kimmich.peten.mapper.TopicMapper;
 import com.kimmich.peten.mapper.UserMapper;
+import com.kimmich.peten.model.bo.article.ArticleBO;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
+import com.kimmich.peten.model.dto.article.SimpleArticleDTO;
 import com.kimmich.peten.model.dto.user.SimpleUserDTO;
+import com.kimmich.peten.model.entity.Article;
 import com.kimmich.peten.model.entity.Follow;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.model.vo.ProfileVO;
+import com.kimmich.peten.service.IArticleService;
 import com.kimmich.peten.service.IFollowService;
 import com.kimmich.peten.service.IUserService;
 import com.kimmich.peten.utils.CommonUtil;
@@ -30,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,6 +54,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private IFollowService followService;
 
+    @Resource
+    IArticleService articleService;
+
+
+    @Override
+    public List<ArticleBO> getMyFollowPost(String userId) {
+        List<String> myFocus = getMyFocus(userId);
+        return getContentByAuthor(myFocus);
+    }
+
     @Override
     public ListPageDTO<Object> myFollowNews(List<String> userId) {
         return null;
@@ -61,6 +78,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public List<SimpleUserDTO> recommend(String userId) {
 
+        if (StrUtil.isBlank(userId)){
+            return new ArrayList<>();
+        }
+
         List<String> idList = forecastInterestedUserId(userId);
 
         // 不够五个就凑齐5个
@@ -69,6 +90,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         return getSimpleInfo(idList);
+    }
+
+
+    private List<ArticleBO> getContentByAuthor(List<String> userId){
+        if (CollectionUtil.isEmpty(userId)){
+            return new ArrayList<>();
+        }
+        List<ArticleBO> result = new ArrayList<>();
+        for (String id : userId) {
+            QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(Article::getAuthor, id).orderByDesc(Article::getCreateTime);
+            List<Article> articleList = articleService.list(queryWrapper);
+            ArticleBO bo = new ArticleBO();
+            SimpleUserDTO userDTO = getSimpleInfo(id);
+            for (Article article : articleList) {
+                BeanUtils.copyProperties(article, bo);
+                bo.setAuthorInfo(userDTO);
+
+                bo.setCreateTime(article.getCreateTime().toString());
+
+                result.add(bo);
+            }
+        }
+
+        return result;
     }
 
     private void addForecast(String userId, List<String> idList) {

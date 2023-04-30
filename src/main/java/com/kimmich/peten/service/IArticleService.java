@@ -5,12 +5,15 @@ import com.kimmich.peten.model.bo.article.ArticleBO;
 import com.kimmich.peten.model.bo.article.ListBO;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.dto.article.ArticleDTO;
+import com.kimmich.peten.model.dto.article.SimpleArticleDTO;
 import com.kimmich.peten.model.dto.content.ContentDTO;
 import com.kimmich.peten.model.entity.Article;
 
 import java.util.List;
 
 public interface IArticleService extends IService<Article> {
+
+    List<SimpleArticleDTO> recommend(String id);
 
     List<Article> getTopHop(Integer limit);
 

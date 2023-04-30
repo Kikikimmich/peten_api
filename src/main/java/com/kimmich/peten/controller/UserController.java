@@ -2,8 +2,10 @@ package com.kimmich.peten.controller;
 
 
 import com.kimmich.peten.common.api.ApiResult;
+import com.kimmich.peten.model.bo.article.ArticleBO;
 import com.kimmich.peten.model.dto.LoginDTO;
 import com.kimmich.peten.model.dto.RegisterDTO;
+import com.kimmich.peten.model.dto.article.SimpleArticleDTO;
 import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.User;
 import com.kimmich.peten.service.IPostService;
@@ -22,16 +24,26 @@ import static com.kimmich.peten.jwt.JwtUtil.USER_NAME;
 
 
 @RestController
-@RequestMapping("/ums/user")
+@RequestMapping("/user")
 public class UserController extends BaseController {
     @Resource
     private IUserService userService;
-    @Resource
-    private IPostService iPostService;
 
+    @GetMapping("/get-my-follow-post")
+    public ApiResult<List<ArticleBO>> getMyFollowPost(){
+        String userId = getLoginUserId();
+        return ApiResult.success(userService.getMyFollowPost(userId));
+    }
+
+    @GetMapping("/get-my-follow")
+    public ApiResult<List<SimpleUserDTO>> getMyFollow(){
+        String userId = getLoginUserId();
+        return ApiResult.success(userService.getMyFollow(userId));
+    }
 
     @GetMapping("/recommend")
-    public ApiResult<List<SimpleUserDTO>> recommend(String userId){
+    public ApiResult<List<SimpleUserDTO>> recommend(){
+        String userId = getLoginUserId();
         return ApiResult.success(userService.recommend(userId));
     }
 

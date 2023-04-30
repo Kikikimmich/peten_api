@@ -2,7 +2,7 @@ package com.kimmich.peten.constant;
 
 public class PathConst {
     // 图片url的根
-    public static final String IMAGE_URL_ROOT = "http://localhost:8000/image/";
+    public static final String IMAGE_URL_ROOT = "http://localhost:9111/image/";
 
     // 图片根路径
     public static final String IMAGE_ROOT = "E:/MyProject/file/image/";
