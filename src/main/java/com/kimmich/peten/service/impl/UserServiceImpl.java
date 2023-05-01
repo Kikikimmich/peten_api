@@ -40,6 +40,7 @@ import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -98,6 +99,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return new ArrayList<>();
         }
         List<ArticleBO> result = new ArrayList<>();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         for (String id : userId) {
             QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
             queryWrapper.lambda().eq(Article::getAuthor, id).orderByDesc(Article::getCreateTime);
@@ -108,7 +112,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 BeanUtils.copyProperties(article, bo);
                 bo.setAuthorInfo(userDTO);
 
-                bo.setCreateTime(article.getCreateTime().toString());
+
+                bo.setCreateTime(formatter.format(article.getCreateTime()));
 
                 result.add(bo);
             }

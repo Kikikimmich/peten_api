@@ -20,7 +20,7 @@ public class ArticleTask {
     @Scheduled(cron = "0 0 * * * *")
     public void executeArticleHot() {
         // 只计算最近三天的发布的热度。
-        List<Article> list = articleService.getTopHop(-1);
+        List<Article> list = articleService.getTopHot(-1);
         if (list == null || list.isEmpty()) {
             return;
         }

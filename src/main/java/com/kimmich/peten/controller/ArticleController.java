@@ -22,6 +22,11 @@ public class ArticleController extends BaseController{
     @Resource
     IArticleService articleService;
 
+    @GetMapping("/get-top-hot")
+    public ApiResult<List<ArticleBO>> getTopHot(){
+        return ApiResult.success(articleService.getHot(20));
+    }
+
     @GetMapping("/recommend")
     public ApiResult<List<SimpleArticleDTO>> recommend(String id){
         return ApiResult.success(articleService.recommend(id));

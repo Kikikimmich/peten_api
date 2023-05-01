@@ -1,5 +1,6 @@
 package com.kimmich.peten.controller;
 
+import com.kimmich.peten.mock.FakeGroup;
 import com.kimmich.peten.mock.FakeUser;
 import com.kimmich.peten.mock.FakeUserRelationship;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,16 @@ public class MockController {
 
     @Resource
     FakeUserRelationship fakeUserRelationship;
+
+    @Resource
+    FakeGroup fakeGroup;
+
+    @GetMapping("generate-group")
+    @ApiOperation("生成圈子")
+    public void generateGroup(String superName, String name){
+        fakeGroup.generateGroup(superName, name);
+    }
+
 
     @GetMapping("generate-transact-set")
     @ApiOperation("生成用户关注数据集")

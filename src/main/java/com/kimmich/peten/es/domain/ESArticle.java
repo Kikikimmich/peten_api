@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName="article")
+@Document(indexName="article-test-0501")
 
 @Data
 @Builder

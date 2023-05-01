@@ -7,6 +7,7 @@ import com.kimmich.peten.es.bo.PageInfoBO;
 import com.kimmich.peten.es.domain.ESArticle;
 import com.kimmich.peten.es.service.ESArticleService;
 import com.kimmich.peten.mapper.ArticleMapper;
+import com.kimmich.peten.model.bo.article.ArticleBO;
 import com.kimmich.peten.model.common.ListPageDTO;
 import com.kimmich.peten.model.common.PageInfo;
 import com.kimmich.peten.model.dto.content.ContentResultDTO;
@@ -52,9 +53,9 @@ public class SearchService {
         return null;
     }
 
-    public ListPageDTO<ContentResultDTO> searchContent(String keyword, Integer page, Integer pageSize) {
+    public ListPageDTO<ArticleBO> searchContent(String keyword, Integer page, Integer pageSize) {
         if (StrUtil.isBlank(keyword)) {
-            return ListPageDTO.<ContentResultDTO>builder()
+            return ListPageDTO.<ArticleBO>builder()
                     .list(new ArrayList<>())
                     .pageInfo(PageInfo.builder()
                             .page(page.longValue())
@@ -66,7 +67,7 @@ public class SearchService {
 
         ArticleSearchBO articleSearchBO = esArticleService.searchByTitle(keyword, page, pageSize);
         if (ObjectUtil.isNull(articleSearchBO)) {
-            return ListPageDTO.<ContentResultDTO>builder()
+            return ListPageDTO.<ArticleBO>builder()
                     .list(new ArrayList<>())
                     .pageInfo(PageInfo.builder()
                             .page(page.longValue())
@@ -80,7 +81,7 @@ public class SearchService {
         PageInfoBO pageInfo = articleSearchBO.getPageInfo();
 
         if (list == null || list.isEmpty()) {
-            return ListPageDTO.<ContentResultDTO>builder()
+            return ListPageDTO.<ArticleBO>builder()
                     .list(new ArrayList<>())
                     .pageInfo(PageInfo.builder()
                             .page(page.longValue())
@@ -95,26 +96,17 @@ public class SearchService {
 
         List<Article> articles = articleService.listByIds(idList);
 
-        List<ContentResultDTO> result = new ArrayList<>();
+        List<ArticleBO> result = new ArrayList<>();
 
         for (Article article : articles) {
             ESArticle esArticle = articleMap.get(article.getId());
 
-            result.add(ContentResultDTO.builder()
-                    .id(article.getId())
-                    .cover(article.getCover())
-                    .title(esArticle.getTitle())
-                    .author(article.getAuthor())
-                    .type("1")
-                    .introduction("")
-                    .hits("100")
-                    .comments("0")
-                    .postTime(article.getCreateTime().toString())
-                    .videoLength("")
-                    .build());
+            ArticleBO detail = articleService.getDetail(esArticle.getId());
+            detail.setTitle(esArticle.getTitle());
+            result.add(detail);
         }
 
-        return ListPageDTO.<ContentResultDTO>builder()
+        return ListPageDTO.<ArticleBO>builder()
                 .list(result)
                 .pageInfo(PageInfo.builder()
                         .page(page.longValue())

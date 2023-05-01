@@ -1,6 +1,7 @@
 package com.kimmich.peten.controller;
 
 import com.kimmich.peten.common.api.ApiResult;
+import com.kimmich.peten.model.dto.group.GroupDTO;
 import com.kimmich.peten.model.entity.group.Group;
 import com.kimmich.peten.service.IGroupService;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,12 @@ public class GroupController {
 
     @Resource
     IGroupService groupService;
+
+    @GetMapping("/get-hot-group")
+    @ApiOperation("获取热门")
+    public ApiResult<List<GroupDTO>> getHotGroup(String id){
+        return ApiResult.success(groupService.getHotGroup());
+    }
 
     @GetMapping("/list")
     @ApiOperation("获取列表")

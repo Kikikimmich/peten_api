@@ -15,7 +15,9 @@ public interface IArticleService extends IService<Article> {
 
     List<SimpleArticleDTO> recommend(String id);
 
-    List<Article> getTopHop(Integer limit);
+    List<ArticleBO> getHot(Integer limit);
+
+    List<Article> getTopHot(Integer limit);
 
     Boolean exists(String id);
 

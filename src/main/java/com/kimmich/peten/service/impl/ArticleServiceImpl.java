@@ -14,6 +14,7 @@ import com.kimmich.peten.model.common.PageInfo;
 import com.kimmich.peten.model.dto.article.ArticleDTO;
 import com.kimmich.peten.model.dto.article.FeatureMapBO;
 import com.kimmich.peten.model.dto.article.SimpleArticleDTO;
+import com.kimmich.peten.model.dto.user.SimpleUserDTO;
 import com.kimmich.peten.model.entity.Article;
 import com.kimmich.peten.service.IArticleService;
 import com.kimmich.peten.service.IUserService;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -102,18 +104,38 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public List<ArticleBO> getHot(Integer limit) {
+        List<Article> list = getTopHot(limit);
+        List<ArticleBO> result = new ArrayList<>();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Article article : list) {
+            ArticleBO bo = new ArticleBO();
+            BeanUtils.copyProperties(article, bo);
+            SimpleUserDTO user = userService.getSimpleInfo(article.getAuthor());
+            bo.setAuthorInfo(user);
+            bo.setCreateTime(formatter.format(article.getCreateTime()));
+            result.add(bo);
+        }
+        return result;
+    }
+
+    @Override
     // 获取近三天的最热们的前 {limit} 条
-    public List<Article> getTopHop(Integer limit) {
+    public List<Article> getTopHot(Integer limit) {
 
         if (limit == null || limit <= 0) {
             limit = Integer.MAX_VALUE;
         }
 
         // 三天前
-        String date = LocalDate.now().minusDays(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String date = LocalDate.now().minusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.le(Article::getCreateTime, date).orderByDesc(Article::getHots).last("limit " + limit);
+        queryWrapper.ge(Article::getCreateTime, date)
+                .orderByDesc(Article::getHots)
+                .orderByDesc(Article::getViews)
+                .last("limit " + limit);
 
         return list(queryWrapper);
     }
@@ -137,7 +159,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 目前他们的属性是一样的，将来一定不同
         BeanUtils.copyProperties(article, result);
         result.setAuthorInfo(userService.getSimpleInfo(article.getAuthor()));
-        result.setCreateTime(article.getCreateTime().toString());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        result.setCreateTime(formatter.format(article.getCreateTime()));
         return result;
     }
 

@@ -5,8 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimmich.peten.mapper.GroupMapper;
+import com.kimmich.peten.model.dto.group.GroupDTO;
 import com.kimmich.peten.model.entity.group.Group;
 import com.kimmich.peten.service.IGroupService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,25 @@ import java.util.List;
 
 @Service
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements IGroupService {
+
+
+
+    @Override
+    public List<GroupDTO> getHotGroup() {
+        QueryWrapper<Group> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().orderByDesc(Group::getHeat).last("LIMIT 5");
+        List<Group> list = list(queryWrapper);
+
+        List<GroupDTO> result = new ArrayList<>();
+        for (Group group : list) {
+            GroupDTO dto = new GroupDTO();
+            BeanUtils.copyProperties(group, dto);
+            result.add(dto);
+        }
+
+        return result;
+    }
+
 
     @Override
     public List<Group> getBySuperGroup(String superGroup) {
